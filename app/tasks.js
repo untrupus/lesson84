@@ -34,11 +34,15 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 router.put('/:id', auth, async (req, res) => {
-   const result = await Task.findByIdAndUpdate(req.params.id, req.body);
-    if (result) {
-        res.send(result);
+    if (req.body.user) {
+        res.send("You can`t change user");
     } else {
-        res.sendStatus(404);
+        const result = await Task.findByIdAndUpdate(req.params.id, req.body);
+        if (result) {
+            res.send(result);
+        } else {
+            res.sendStatus(404);
+        }
     }
 });
 
